@@ -6,6 +6,7 @@ import com.journal.demo.model.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,8 @@ public class JournalEntryService {
     private UserService userService;
 
     // CREATE - Save a new journal entry
-    public void saveEntry(JournalEntry entry,   String userName) {
+    @Transactional
+    public void saveEntry(JournalEntry entry, String userName) {
         User user = userService.findByUserName(userName);
         JournalEntry saved = journalEntryRepository.save(entry);
         user.getJournalEntries().add(saved);
